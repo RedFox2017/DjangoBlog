@@ -29,12 +29,31 @@ def login_required(view_func):
 
 # Create your views here.
 def index(request):
+    # 分页导入模块
+    from django.core.paginator import Paginator
+
+    if 'username' in request.COOKIES:
+        username = request.COOKIES['username']
+    else:
+        username = ''
+
+    blogs = BlogInfo.objects.all()
+    paginator = Paginator(blogs, 4)  # 每页4条数据
+    page = paginator.page(1)
+    return render(request, 'blog/index.html', {'blogs': blogs, 'username': username, 'page': page})
+
+
+def show_blog(request, p_index):
+    # 分页导入模块
+    from django.core.paginator import Paginator
     if 'username' in request.COOKIES:
         username = request.COOKIES['username']
     else:
         username = ''
     blogs = BlogInfo.objects.all()
-    return render(request, 'blog/index.html', {'blogs': blogs, 'username': username})
+    Paginator = Paginator(blogs, 4)  # 每页十条数据
+    page = Paginator.page(p_index)
+    return render(request, 'blog/index.html', {'blogs': blogs, 'username': username, 'page': page})
 
 
 def login(request):

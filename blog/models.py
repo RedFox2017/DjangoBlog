@@ -17,6 +17,7 @@ class BlogInfo(models.Model):
 
     class Meta:
         db_table = 'bloginfo'
+        ordering = ['id']
 
     b_author.short_description = '作者'
 
