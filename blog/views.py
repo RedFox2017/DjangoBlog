@@ -3,12 +3,26 @@ from blog.models import BlogInfo
 from django.http import HttpResponse, JsonResponse
 
 
+# 定义登录判断装饰器
+# 被装饰的函数执行之前执行
+def login_required(view_func):
+    def wrapper(request, *view_args, **view_kwargs):
+        if request.session.get('isLogin'):
+            # 用户已登录
+            return view_func(request, *view_args, **view_kwargs)
+        else:
+            # 用户未登录
+            return redirect('/login')
+
+    return wrapper
+
+
 # Create your views here.
 def index(request):
     if 'username' in request.COOKIES:
         username = request.COOKIES['username']
     else:
-        username = '请登录'
+        username = ''
     blogs = BlogInfo.objects.all()
     return render(request, 'blog/index.html', {'blogs': blogs, 'username': username})
 
@@ -55,10 +69,12 @@ def reg(request):
     return render(request, 'blog/reg.html')
 
 
+@login_required
 def create(request):
     return render(request, 'blog/create.html')
 
 
+@login_required
 def delete(request, bid):
     blog = BlogInfo.objects.get(id=bid)
     blog.delete()
