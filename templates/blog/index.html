@@ -7,12 +7,20 @@
 <body>
 <h1>这是博客首页</h1>
 当前用户：{{ username | default:'未登录' }}
-<a href="/create">写博客</a>
+<!--<a href="/create">写博客</a>-->
+<a href="{% url 'blog:create' %}">写博客</a>
 {% for blog in blogs %}
 <li>{{ forloop.counter }}:{{ blog.b_title }}---{{blog.b_author}}---{{blog.id}}
     <a href="/delete/{{blog.id}}">删除</a>
 </li>
 {% endfor %}
+
+上传图片：
+<form method="post" action="/upload" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="pic"><br>
+    <input type="submit" value="上传">
+</form>
 <!--html注释-->
 </body>
 </html>

@@ -8,6 +8,10 @@ from PIL import ImageDraw
 from PIL import ImageFont
 from PIL import Image
 
+# 上传文件导入settings
+from django.conf import settings
+from blog.models import BlogPicInfo
+
 
 # 定义登录判断装饰器
 # 被装饰的函数执行之前执行
@@ -146,3 +150,20 @@ def get_verify_img(req):
     image.save(buf, 'png')
     # 将缓存区的内容返回给前端 .getvalue 是把缓存区的所有数据读取
     return HttpResponse(buf.getvalue(), 'image/png')
+
+
+def upload(request):
+    """自定义上传"""
+    # 获取上传图片
+    pic = request.FILES['pic']
+    # 创建文件
+    save_path = '%s/blog/%s' % (settings.MEDIA_ROOT, pic.name)
+    # 获取上传文件内容写到创建的文件中
+    with open(save_path, 'wb') as f:
+        for content in pic.chunks():
+            f.write(content)
+    # 数据库保存上传记录
+    BlogPicInfo.objects.create(p_address='blog/%s' % pic.name)
+    print(save_path)
+    # 返回上传结果
+    return HttpResponse('ok')

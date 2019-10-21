@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'blog.middleware.TestMiddleware',
 ]
 
 ROOT_URLCONF = 'DjangoBlog.urls'
@@ -115,6 +116,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-
+# 设置'访问'静态文件对应的url
 STATIC_URL = '/static/'
+# 设置'存放'静态文件的物理目录
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+# 配置上传文件保存目录
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
