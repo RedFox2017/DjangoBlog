@@ -28,10 +28,20 @@
     <a href="/delete/{{blog.id}}">删除</a>
 </li>
 {% endfor %}
-页码： <br>
+页码：<br>
+{% if page.has_previous %}
+<a href="/show_blog/{{page.previous_page_number}}">&lt;上一页</a>
+{% endif %}
 {% for p_index in page.paginator.page_range %}
-<a href="/show_blog/{{p_index}}">{{ p_index }}</a>
+    {% if p_index == page.number %}
+        {{ p_index }}
+    {% else %}
+        <a href="/show_blog/{{p_index}}">{{ p_index }}</a>
+    {% endif %}
 {% endfor %}
+{% if page.has_next %}
+<a href="/show_blog/{{page.next_page_number}}">下一页&gt;</a>
+{% endif %}
 <!--html注释-->
 </body>
 </html>
