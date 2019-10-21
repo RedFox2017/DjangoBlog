@@ -6,6 +6,7 @@
 </head>
 <body>
 <h1>这是博客首页</h1>
+当前用户：{{ username }}
 <a href="/create">写博客</a>
 {% for blog in blogs %}
 <li>{{ blog.b_title }}---{{blog.b_author}}---{{blog.id}}

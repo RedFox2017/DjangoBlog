@@ -9,14 +9,16 @@
             $('#btnLogin').click(function(){
                 username=$('#username').val()
                 password=$('#password').val()
+                remember=$('#remember').is(':checked')
                 $.ajax({
                     'url':'/login_check_ajax',
                     'type':'post',
                     'data':{
                         'username':username,
-                        'password':password
+                        'password':password,
+                        'remember':remember
                     },
-                    'dataType':'json',
+                    'dataType':'json'
                 }).success(function(data){
                     if(data.res==0){
                         $('#msg').show().html('用户名或密码错误')
@@ -27,7 +29,6 @@
                 })
             })
         })
-
     </script>
     <style>
         #msg{
@@ -40,11 +41,11 @@
 <body>
 <h1>这是登录界面</h1>
 <div id="msg"></div>
-ddd
 <div>
     用户名：<input type="text" id="username"><br>
     密 码：<input type="password" id="password"><br>
     <input type="button" id="btnLogin" value="登录">
+    <input type="checkbox" id="remember">记住用户名
 </div>
 </body>
 </html>

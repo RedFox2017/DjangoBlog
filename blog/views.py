@@ -5,8 +5,12 @@ from django.http import HttpResponse, JsonResponse
 
 # Create your views here.
 def index(request):
+    if 'username' in request.COOKIES:
+        username = request.COOKIES['username']
+    else:
+        username = ''
     blogs = BlogInfo.objects.all()
-    return render(request, 'blog/index.html', {'blogs': blogs})
+    return render(request, 'blog/index.html', {'blogs': blogs, 'username': username})
 
 
 def login(request):
@@ -26,10 +30,15 @@ def login(request):
 def login_check_ajax(request):
     username = request.POST.get('username')
     password = request.POST.get('password')
-    print(username, password)
+    remember = request.POST.get('remember')
+
+    print(username, password, remember)
     if username == 'hao' and password == 'hao':
-        print('success')
-        return JsonResponse({'res': 1})
+        response = JsonResponse({'res': 1})
+        if remember == 'true':
+            print('remember is ' + str(remember))
+            response.set_cookie('username', username, max_age=3600 * 5)
+        return response
     else:
         return JsonResponse({'res': 0})
 
