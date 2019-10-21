@@ -107,7 +107,7 @@ def get_verify_img(req):
     # 定义画布背景颜色
     bg_color = get_random_color()
     # 画布大小
-    img_size = (80, 40)
+    img_size = (100, 44)
     # 定义画布
     image = Image.new("RGB", img_size, bg_color)
     # 定义画笔
@@ -115,7 +115,7 @@ def get_verify_img(req):
     # 创建字体（字体的路径，服务器路径）
     font_path = 'static/fonts/AdobeArabic-BoldItalic.otf'
     # 实例化字体，设置大小是30
-    font = ImageFont.truetype(font_path, 30)
+    font = ImageFont.truetype(font_path, 40)
     # 准备画布上的字符集
     source = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789"
     # 保存每次随机出来的字符
@@ -130,7 +130,8 @@ def get_verify_img(req):
         # 将每次随机的字符保存（遍历） 随机四次
         code_str += random_str
         # 将字符画到画布上
-        draw.text((20 + 10 * i, 5), random_str, text_color, font)
+        draw.text((10 + 20 * i, 2), random_str, text_color, font)
+        draw.line(((1, random.randint(1, 44)), (100, random.randint(1, 40))), get_random_color(), 1)
     # 记录给哪个请求发了什么验证码
     req.session['code'] = code_str
 
@@ -138,7 +139,7 @@ def get_verify_img(req):
     # draw.text((10, 20), "X", text_color, font)
     # draw.text((40, 20), "Q", text_color, font)
     # draw.text((60, 20), "W", text_color, font)
-
+    del draw
     # 获得一个缓存区
     buf = io.BytesIO()
     # 将图片保存到缓存区
