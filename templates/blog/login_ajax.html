@@ -16,8 +16,9 @@
                     'data':{
                         'username':username,
                         'password':password,
-                        'remember':remember
-                    },
+                        'remember':remember,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },{# 开启csrf防护 #}
                     'dataType':'json'
                 }).success(function(data){
                     if(data.res==0){
@@ -29,12 +30,14 @@
                 })
             })
         })
+
     </script>
     <style>
         #msg{
             display:none;
             color:green;
         }
+
 
     </style>
 </head>
