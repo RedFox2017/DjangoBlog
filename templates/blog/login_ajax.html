@@ -10,6 +10,7 @@
                 username=$('#username').val()
                 password=$('#password').val()
                 remember=$('#remember').is(':checked')
+                verify_code=$('#verify_code').val()
                 $.ajax({
                     'url':'/login_check_ajax',
                     'type':'post',
@@ -17,19 +18,23 @@
                         'username':username,
                         'password':password,
                         'remember':remember,
+                        'verify_code':verify_code,
                         'csrfmiddlewaretoken': '{{ csrf_token }}'
                     },{# 开启csrf防护 #}
                     'dataType':'json'
                 }).success(function(data){
                     if(data.res==0){
                         $('#msg').show().html('用户名或密码错误')
-                    }
-                    else{
+                    }else if(data.res==-1){
+                        $('#msg').show().html('验证码错误')
+                    }else{
                         location.href='/index'
                     }
                 })
             })
         })
+
+
 
     </script>
     <style>
@@ -37,7 +42,6 @@
             display:none;
             color:green;
         }
-
 
     </style>
 </head>
@@ -47,8 +51,17 @@
 <div>
     用户名：<input type="text" id="username" value="{{username}}"><br>
     密 码：<input type="password" id="password"><br>
+    <img src="/get_verify_img" alt="" id="code">
+    <input type="text" placeholder="验证码" id="verify_code">
     <input type="button" id="btnLogin" value="登录">
     <input type="checkbox" id="remember">记住用户名
 </div>
+<script>
+{# 刷新验证码#}
+    $("#code").click(function () {
+        console.log("刷新验证码");
+    })
+
+</script>
 </body>
 </html>

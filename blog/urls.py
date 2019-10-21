@@ -8,4 +8,5 @@ urlpatterns = [
     path('create', views.create),
     path('delete/<int:bid>', views.delete),
     path('login_check_ajax', views.login_check_ajax),
+    path('get_verify_img', views.get_verify_img),
 ]
