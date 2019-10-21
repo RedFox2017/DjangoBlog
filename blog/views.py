@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from blog.models import BlogInfo
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 
 # Create your views here.
@@ -10,19 +10,28 @@ def index(request):
 
 
 def login(request):
-    return render(request, 'blog/login.html')
+    return render(request, 'blog/login_ajax.html')
 
 
-def login_check(request):
-    # request.POST 返回一个QueryDict 类似字典，但是这里键可以匹配多个值
-    # request.GET 返回一个QueryDict 匹配多值时用q.getlist('键')取出
+# def login_check(request):
+#     # request.POST 返回一个QueryDict 类似字典，但是这里键可以匹配多个值
+#     # request.GET 返回一个QueryDict 匹配多值时用q.getlist('键')取出
+#     username = request.POST.get('username')
+#     password = request.POST.get('password')
+#     print(username, password)
+#     if username == 'hao' and password == 'hao':
+#         return redirect('/index')
+#     else:
+#         return redirect('/login')
+def login_check_ajax(request):
     username = request.POST.get('username')
     password = request.POST.get('password')
     print(username, password)
     if username == 'hao' and password == 'hao':
-        return redirect('/index')
+        print('success')
+        return JsonResponse({'res': 1})
     else:
-        return redirect('/login')
+        return JsonResponse({'res': 0})
 
 
 def reg(request):
