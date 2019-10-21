@@ -8,13 +8,20 @@ def index(request):
     if 'username' in request.COOKIES:
         username = request.COOKIES['username']
     else:
-        username = ''
+        username = '请登录'
     blogs = BlogInfo.objects.all()
     return render(request, 'blog/index.html', {'blogs': blogs, 'username': username})
 
 
 def login(request):
-    return render(request, 'blog/login_ajax.html')
+    if request.session.get('isLogin'):
+        return redirect('/index')
+    else:
+        if 'username' in request.COOKIES:
+            username = request.COOKIES['username']
+        else:
+            username = ''
+        return render(request, 'blog/login_ajax.html', {'username': username})
 
 
 # def login_check(request):
@@ -38,6 +45,7 @@ def login_check_ajax(request):
         if remember == 'true':
             print('remember is ' + str(remember))
             response.set_cookie('username', username, max_age=3600 * 5)
+        request.session['isLogin'] = True
         return response
     else:
         return JsonResponse({'res': 0})
