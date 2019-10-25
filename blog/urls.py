@@ -11,4 +11,5 @@ urlpatterns = [
     path('get_verify_img', views.get_verify_img),
     path('upload', views.upload),
     path('show_blog/<int:p_index>', views.show_blog),
+    path('pub', views.pub),
 ]

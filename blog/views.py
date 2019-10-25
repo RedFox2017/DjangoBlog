@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from blog.models import BlogInfo
+from blog.models import BlogInfo, AuthorInfo
 from django.http import HttpResponse, JsonResponse
 # 生成验证码导入模块
 import random
@@ -186,3 +186,31 @@ def upload(request):
     print(save_path)
     # 返回上传结果
     return HttpResponse('ok')
+
+
+def pub(request):
+    blog = BlogInfo()
+    blog.b_title = request.POST.get('title')
+    # author_name = request.POST.get('author')
+    author_name = request.POST.get('author')
+    print(author_name)
+    author_obj = AuthorInfo.objects.get(au_name=author_name)
+    blog.b_author = author_obj
+    blog.b_content = request.POST.get('content')
+
+    """自定义上传博客图片"""
+    # 获取上传图片
+    pic = request.FILES['pic']
+    # 创建文件
+    save_path = '%s/blog/%s' % (settings.MEDIA_ROOT, pic.name)
+    # 获取上传文件内容写到创建的文件中
+    with open(save_path, 'wb') as f:
+        for content in pic.chunks():
+            f.write(content)
+    # 数据库保存上传记录
+    BlogPicInfo.objects.create(p_address='blog/%s' % pic.name)
+    # 返回上传结果
+    print(str(pic))
+    blog.b_pic = pic
+    # blog.save()
+    return redirect('/index')

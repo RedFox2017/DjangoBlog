@@ -6,5 +6,13 @@
 </head>
 <body>
 <h1>这是写博客界面</h1>
+<form action="/pub" method="post" enctype="multipart/form-data">
+    {%csrf_token%}
+    <input type="text" value="标题" name="title">
+    <input type="text" value="作者" name="author">
+    <input type="text" value="博客内容" name="content">
+    <input type="file" name="pic">
+    <input type="submit" value="发布">
+</form>
 </body>
 </html>
