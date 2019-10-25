@@ -60,16 +60,17 @@ def login(request):
     if request.session.get('isLogin'):
         return redirect('/index')
     else:
-        if 'username' in request.COOKIES:
-            username = request.COOKIES['username']
+        if 'remember_name' in request.COOKIES:
+            remember_name = request.COOKIES['remember_name']
         else:
-            username = ''
-        return render(request, 'blog/login_ajax.html', {'username': username})
+            remember_name = ''
+        return render(request, 'blog/login_ajax.html', {'remember_name': remember_name})
 
 
 def logout(request):
     request.session.clear()
-    response = redirect('/index').delete_cookie('username')
+    response = redirect('/index')
+    response.delete_cookie('username')
     return response
 
     # def login_check(request):
@@ -97,8 +98,10 @@ def login_check_ajax(request):
         if s_code.lower() == c_code.lower():
             response = JsonResponse({'res': 1})
             if remember == 'true':
-                print('remember is ' + str(remember))
-                response.set_cookie('username', username, max_age=3600 * 5)
+                response.set_cookie('remember_name', username)
+            else:
+                response.set_cookie('remember_name', '')
+            response.set_cookie('username', username, max_age=3600 * 5)
             request.session['isLogin'] = True
             return response
         else:

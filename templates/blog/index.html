@@ -5,10 +5,14 @@
     <title>博客首页</title>
 </head>
 <body>
-<h1>这是博客首页</h1>
-{{msg}}
-当前用户：{{ username | default:'未登录' }}
+<h1>博客首页</h1>
+{% if username %}
+欢迎你：{{username}}
 <a href="/logout">注销</a>
+{%else%}
+<a href="/login">登录</a>
+{% endif %}
+
 <!--<a href="/create">写博客</a>-->
 <a href="{% url 'blog:create' %}">写博客</a>
 {% for blog in blogs %}
@@ -16,13 +20,6 @@
     <a href="/delete/{{blog.id}}">删除</a>
 </li>
 {% endfor %}
-
-上传图片：
-<form method="post" action="/upload" enctype="multipart/form-data">
-    {% csrf_token %}
-    <input type="file" name="pic"><br>
-    <input type="submit" value="上传">
-</form>
 <hr>
 分页显示：<br>
 {% for blog in page %}
