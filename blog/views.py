@@ -67,16 +67,23 @@ def login(request):
         return render(request, 'blog/login_ajax.html', {'username': username})
 
 
-# def login_check(request):
-#     # request.POST 返回一个QueryDict 类似字典，但是这里键可以匹配多个值
-#     # request.GET 返回一个QueryDict 匹配多值时用q.getlist('键')取出
-#     username = request.POST.get('username')
-#     password = request.POST.get('password')
-#     print(username, password)
-#     if username == 'hao' and password == 'hao':
-#         return redirect('/index')
-#     else:
-#         return redirect('/login')
+def logout(request):
+    request.session.clear()
+    response = redirect('/index').delete_cookie('username')
+    return response
+
+    # def login_check(request):
+    #     # request.POST 返回一个QueryDict 类似字典，但是这里键可以匹配多个值
+    #     # request.GET 返回一个QueryDict 匹配多值时用q.getlist('键')取出
+    #     username = request.POST.get('username')
+    #     password = request.POST.get('password')
+    #     print(username, password)
+    #     if username == 'hao' and password == 'hao':
+    #         return redirect('/index')
+    #     else:
+    #         return redirect('/login')
+
+
 def login_check_ajax(request):
     username = request.POST.get('username')
     password = request.POST.get('password')

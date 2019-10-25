@@ -6,7 +6,9 @@
 </head>
 <body>
 <h1>这是博客首页</h1>
+{{msg}}
 当前用户：{{ username | default:'未登录' }}
+<a href="/logout">注销</a>
 <!--<a href="/create">写博客</a>-->
 <a href="{% url 'blog:create' %}">写博客</a>
 {% for blog in blogs %}
@@ -33,11 +35,11 @@
 <a href="/show_blog/{{page.previous_page_number}}">&lt;上一页</a>
 {% endif %}
 {% for p_index in page.paginator.page_range %}
-    {% if p_index == page.number %}
-        {{ p_index }}
-    {% else %}
-        <a href="/show_blog/{{p_index}}">{{ p_index }}</a>
-    {% endif %}
+{% if p_index == page.number %}
+{{ p_index }}
+{% else %}
+<a href="/show_blog/{{p_index}}">{{ p_index }}</a>
+{% endif %}
 {% endfor %}
 {% if page.has_next %}
 <a href="/show_blog/{{page.next_page_number}}">下一页&gt;</a>

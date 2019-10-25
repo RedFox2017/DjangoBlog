@@ -4,6 +4,7 @@ from blog import views
 urlpatterns = [
     path('index', views.index, name='index'),
     path('login', views.login),
+    path('logout', views.logout),
     path('reg', views.reg),
     path('create', views.create, name='create'),
     path('delete/<int:bid>', views.delete, name='delete'),
