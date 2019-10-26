@@ -125,6 +125,38 @@ def delete(request, bid):
     return redirect('/index')
 
 
+@login_required
+def update(request, bid):
+    blog = BlogInfo.objects.get(id=bid)
+    return render(request, 'blog/update.html', {'blog': blog})
+
+
+@login_required
+def change(request, bid):
+    blog = BlogInfo.objects.get(id=bid)
+    blog.b_title = request.POST.get('title')
+    blog.b_content = request.POST.get('content')
+
+    # 获取上传图片
+
+    # 创建文件
+    if request.FILES:
+        pic = request.FILES['pic']
+        save_path = '%s/blog/%s' % (settings.MEDIA_ROOT, pic.name)
+        # 获取上传文件内容写到创建的文件中
+        with open(save_path, 'wb') as f:
+            for content in pic.chunks():
+                f.write(content)
+        # 数据库保存上传记录
+        BlogPicInfo.objects.create(p_address='blog/%s' % pic.name)
+        blog.b_pic = pic
+    else:
+        print('没有更改图片')
+    blog.save()
+    print('change')
+    return redirect('/index')
+
+
 def detail(request, bid):
     blog = BlogInfo.objects.get(id=bid)
     return render(request, 'blog/detail.html', {'blog': blog})
@@ -226,5 +258,5 @@ def pub(request):
     # 返回上传结果
     print(str(pic))
     blog.b_pic = pic
-    # blog.save()
+    blog.save()
     return redirect('/index')

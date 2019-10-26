@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改博客</title>
+</head>
+<body>
+这是修改博客页面
+<form action="/change/{{blog.id}}" method="post" enctype="multipart/form-data">
+    {%csrf_token%}
+    标题：<input type="text" name="title" value="{{blog.b_title}}"><br>
+    内容：<br>
+    <textarea name="content" rows="10" cols="40" >{{blog.b_content}}</textarea><br>
+    <img src="/static/media/{{blog.b_pic}}" alt="博客图片" width="50%" height="50%"><br>
+    图片：<input type="file" name="pic"><br>
+    <input type="submit" value="修改"><br>
+</form>
+</body>
+</html>
