@@ -90,12 +90,11 @@ def login_check_ajax(request):
     password = request.POST.get('password')
     remember = request.POST.get('remember')
     c_code = request.POST.get('verify_code')
-    # 从session获取的
     s_code = request.session.get("code")
-    print(username, password, remember)
-    print(s_code, c_code)
-    if username == 'hao' and password == 'hao':
-        if s_code.lower() == c_code.lower():
+    user = AuthorInfo.objects.filter(au_name=username, au_password=password)  # 此时不会执行查询
+    # 从session获取的
+    if s_code.lower() == c_code.lower():
+        if user:
             response = JsonResponse({'res': 1})
             if remember == 'true':
                 response.set_cookie('remember_name', username)
@@ -105,9 +104,9 @@ def login_check_ajax(request):
             request.session['isLogin'] = True
             return response
         else:
-            return JsonResponse({'res': -1})
+            return JsonResponse({'res': 0})
     else:
-        return JsonResponse({'res': 0})
+        return JsonResponse({'res': -1})
 
 
 def reg(request):
@@ -124,6 +123,11 @@ def delete(request, bid):
     blog = BlogInfo.objects.get(id=bid)
     blog.delete()
     return redirect('/index')
+
+
+def detail(request, bid):
+    blog = BlogInfo.objects.get(id=bid)
+    return render(request, 'blog/detail.html', {'blog': blog})
 
 
 # Create your views here.
@@ -201,8 +205,8 @@ def upload(request):
 def pub(request):
     blog = BlogInfo()
     blog.b_title = request.POST.get('title')
+    author_name = request.COOKIES['username']
     # author_name = request.POST.get('author')
-    author_name = request.POST.get('author')
     print(author_name)
     author_obj = AuthorInfo.objects.get(au_name=author_name)
     blog.b_author = author_obj

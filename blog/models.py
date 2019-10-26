@@ -24,7 +24,8 @@ class BlogInfo(models.Model):
 
 class AuthorInfo(models.Model):
     au_name = models.CharField(verbose_name='作者', max_length=48)
-    au_id = models.CharField(max_length=24)
+    au_id = models.CharField(max_length=24, blank=True)
+    au_password = models.CharField(verbose_name='密码', max_length=48)
 
     def __str__(self):
         return self.au_name
