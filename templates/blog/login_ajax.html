@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>登录界面</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/core.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/components.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/icons.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/pages.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/responsive.css"/>
     <script src="/static/js/jquery.min.js"></script>
     <script>
         $(function(){
@@ -24,15 +30,24 @@
                     'dataType':'json'
                 }).success(function(data){
                     if(data.res==0){
-                        $('#msg').show().html('用户名或密码错误')
+                        //$('#msg').show().html('用户名或密码错误')
+                        alert('用户名或密码错误')
                     }else if(data.res==-1){
-                        $('#msg').show().html('验证码错误')
+                        alert('验证码错误')
                     }else{
                         location.href='/index'
                     }
                 })
             })
         })
+
+
+
+
+
+
+
+
 
 
 
@@ -43,19 +58,88 @@
             color:green;
         }
 
+
+
+
+
+
+
+
+
     </style>
+
 </head>
 <body>
-<h1>这是登录界面</h1>
-<div id="msg"></div>
 <div>
-    用户名：<input type="text" id="username" value="{{remember_name}}"><br>
-    密 码：<input type="password" id="password"><br>
-    <img src="/get_verify_img" alt="" id="code">
-    <input type="text" placeholder="验证码" id="verify_code"><br>
-    <input type="checkbox" id="remember">记住用户名<br>
-    <input type="button" id="btnLogin" value="登录">
+    <div class="account-pages"></div>
+    <div class="clearfix"></div>
+    <div class="wrapper-page">
+        <div class="card-box">
+            <div class="panel-heading">
+                <h3 class="text-center"> 登录博客账号</h3>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal m-t-20" action="/login" method="POST">
+                    <input type="hidden" name="_token" value="aZzGndMGV6CIDOA0aEi3WmtQkB9VhDb4ggZgbhg0">
 
+                    <div class="form-group ">
+                        <div class="col-xs-12">
+                            <input class="form-control" type="text" name="username" placeholder="用户名/邮箱"
+                                   value="{{remember_name}}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <input class="form-control" type="password" name="password" placeholder="密码" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <input type="text" placeholder="输入验证码" id="verify_code" maxlength="4" size="16">
+                            <img src="/get_verify_img" alt="" id="code">
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <div class="col-xs-12">
+                            <div>
+                                <input id="checkbox-signup" type="checkbox" name="remember">
+                                <label for="checkbox-signup">
+                                    记住我
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group text-center m-t-40">
+
+                    </div>
+                    <div class="form-group text-center m-t-40">
+                        <div class="col-xs-12">
+                            <input class="btn btn-pink btn-block text-uppercase waves-effect waves-light"
+                                   type="button" id="btnLogin" value="登 录">
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group m-t-30 m-b-0">
+                        <div class="col-sm-12">
+                            <a href="#" class="text-dark"><i class="fa fa-lock m-r-5"></i> 忘记密码?</a>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <p>还没有账号? <a href="/reg" class="text-primary m-l-5"><b>注册</b></a></p>
+            </div>
+        </div>
+
+    </div>
 </div>
 <script>
 {# 刷新验证码#}
