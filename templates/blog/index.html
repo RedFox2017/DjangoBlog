@@ -1,20 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>博客首页</title>
-</head>
-<body>
-<h1>博客首页</h1>
-{% if username %}
-欢迎你：{{username}}
-<a href="/logout">注销</a>
-{%else%}
-<a href="/login">登录</a>
-{% endif %}
-
-<!--<a href="/create">写博客</a>-->
-<a href="{% url 'blog:create' %}">写博客</a>
+{% extends 'blog/index_base.html' %}
+{% block main_primary%}
 {% for blog in blogs %}
 <li>{{ forloop.counter }}:{{ blog.b_title }}---{{blog.b_author}}---{{blog.id}}
     <a href="/delete/{{blog.id}}">删除</a>
@@ -44,5 +29,4 @@
 <a href="/show_blog/{{page.next_page_number}}">下一页&gt;</a>
 {% endif %}
 <!--html注释-->
-</body>
-</html>
+{% endblock main_primary%}

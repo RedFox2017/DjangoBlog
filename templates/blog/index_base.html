@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>戴智豪的个人博客</title>
+    <script src="/static/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="/static/css/index_base.css" type="text/css"/>
+</head>
+<body class="home blog custom-background custom-font-enabled single-author">
+<div id="page" class="hfeed site">
+    <header id="masthead" class="site-header" role="banner">
+        <hgroup>
+            <h1 class="site-title">
+                <a href="/index" title="戴智豪个人博客">戴智豪个人博客</a>
+            </h1>
+            <h2 class="site-description">这是我的个人博客，提供我的学习工作经验总结。</h2>
+        </hgroup>
+
+        <nav id="site-navigation" class="main-navigation">
+            <ul class="nav-menu">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">服务器</a>
+                    <ul class="sub-menu">
+                    </ul>
+                </li>
+                <li><a href="#">Python语言</a>
+                    <ul class="sub-menu">
+                    </ul>
+                </li>
+                <li><a href="#">数据库</a>
+                    <ul class="sub-menu">
+                    </ul>
+                </li>
+                <li><a href="#">Linux</a>
+                    <ul class="sub-menu">
+                    </ul>
+                </li>
+                <li><a href="#">Java语言</a>
+                    <ul class="sub-menu">
+                    </ul>
+                </li>
+                <li><a href="#">Html5 &amp; CSS</a>
+                    <ul class="sub-menu">
+                    </ul>
+                </li>
+                <li><a href="#">Lara博客</a>
+                    <ul class="sub-menu">
+                    </ul>
+                </li>
+                <li>
+                    {% if username %}
+                    欢迎你：{{username}}
+                    <a href="/logout">注销</a>
+                    {%else%}
+                    <a href="/login">登录</a>
+                    {% endif %}
+                </li>
+                <li>
+                    <a href="{% url 'blog:create' %}">写博客</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <div id="main" class="wrapper">
+        <div id="primary" class="site-content">
+            <div id="content" role="main">
+                {% block main_primary%}
+                {% endblock main_primary%}
+            </div>
+
+        </div>
+        <div id="secondary" class="widget-area" role="complementary">
+            <aside>
+                <div>
+                    <label class="screen-reader-text" for="s">搜索：</label>
+                    <input placeholder="搜索" type="text" name="keywords" id="s">
+                    <input type="button" class="btn" id="search" value="搜索">
+                </div>
+            </aside>
+            <aside id="recent-posts-2" class="widget widget_recent_entries">
+                <h3 class="widget-title">热门文章</h3>
+                <ul>
+                     <li><font style="color:#7a7a7a;">[0]</font>&nbsp;<a href="#"
+                                                                        title="热门文章一">热门文章1</a>
+                    </li>
+
+                </ul>
+            </aside>
+        </div>
+
+    </div>
+    <footer id="colophon" role="contentinfo">
+        <div class="site-info">
+            <span>友情链接：</span>
+            <a href="#">我的博客</a>
+            <a href="#">其他博客</a>
+        </div>
+    </footer>
+    <footer style="margin-top:0;">
+        <div class="site-info" style="text-align:center;">
+            <span>备案号000000</span>
+            <span style="position:relative;top:2px;">
+
+        </span>
+        </div>
+    </footer>
+
+
+</div>
+</body>
+</html>

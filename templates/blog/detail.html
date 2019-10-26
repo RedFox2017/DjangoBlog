@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>博客详情</title>
-</head>
-<body>
+{% extends 'blog/index_base.html' %}
+{% block main_primary%}
 <h2>博客详情</h2>
 博客标题：{{blog.b_title}}<br>
 博客作者：{{blog.b_author}}<br>
@@ -15,5 +10,5 @@
 <hr>
 博客创作时间：{{blog.b_pub_date}}<br>
 博客更新时间：{{blog.b_upd_date}}<br>
-</body>
-</html>
+<a href="/update/{{blog.id}}">修改</a>
+{% endblock main_primary%}
