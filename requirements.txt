@@ -1,3 +1,5 @@
+markdown
+mdeditor
 Django==2.2.6
 Pillow==6.2.0
 pytz==2019.3

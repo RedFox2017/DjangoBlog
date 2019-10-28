@@ -1,9 +1,10 @@
+import markdown
 from django.shortcuts import render, redirect
 from blog.models import BlogInfo, AuthorInfo
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 # 上传文件导入settings
 from django.conf import settings
-from blog.models import BlogPicInfo, CategoryInfo
+from blog.models import BlogPicInfo, CategoryInfo, MDEditorForm
 
 
 # 定义登录判断装饰器
@@ -53,7 +54,8 @@ def show_blog(request, p_index):
 
 @login_required
 def create(request):
-    return render(request, 'blog/create.html')
+    form = MDEditorForm()
+    return render(request, 'blog/create.html', {'form': form})
 
 
 @login_required
@@ -101,6 +103,11 @@ def detail(request, bid):
     else:
         username = ''
     blog = BlogInfo.objects.get(id=bid)
+    blog.b_content = markdown.markdown(blog.b_content, extensions=[
+        'markdown.extensions.extra',
+        'markdown.extensions.codehilite',
+        'markdown.extensions.toc',
+    ])
     categories = CategoryInfo.objects.all()
     return render(request, 'blog/detail.html',
                   {'blog': blog, 'categories': categories, 'username': username})
@@ -126,28 +133,26 @@ def upload(request):
 
 
 def pub(request):
+    print(request.POST)
     blog = BlogInfo()
     blog.b_title = request.POST.get('title')
     author_name = request.COOKIES['username']
-    # author_name = request.POST.get('author')
-    print(author_name)
     author_obj = AuthorInfo.objects.get(au_name=author_name)
     blog.b_author = author_obj
     blog.b_content = request.POST.get('content')
 
     """自定义上传博客图片"""
     # 获取上传图片
-    pic = request.FILES['pic']
+    cover = request.FILES['cover']
     # 创建文件
-    save_path = '%s/blog/%s' % (settings.MEDIA_ROOT, pic.name)
+    save_path = '%s/blog/%s' % (settings.MEDIA_ROOT, cover.name)
     # 获取上传文件内容写到创建的文件中
     with open(save_path, 'wb') as f:
-        for content in pic.chunks():
+        for content in cover.chunks():
             f.write(content)
     # 数据库保存上传记录
-    BlogPicInfo.objects.create(p_address='blog/%s' % pic.name)
+    BlogPicInfo.objects.create(p_address='blog/%s' % cover.name)
     # 返回上传结果
-    print(str(pic))
-    blog.b_pic = pic
+    blog.b_cover = cover
     blog.save()
     return redirect('/')

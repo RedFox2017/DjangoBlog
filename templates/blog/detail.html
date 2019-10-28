@@ -5,10 +5,10 @@
         <h1 class="entry-title"><a href="#" title="{{blog.b_title}}" rel="bookmark">{{blog.b_title}}</a></h1>
     </header>
     <div class="entry-content ql-editor">
-        {{blog.b_content}}
+        {{blog.b_content | safe}}
     </div>
     <div>
-        <img src="/static/media/{{blog.b_pic}}" alt="博客图片">
+        <img src="/media/{{blog.b_pic}}" alt="博客图片">
     </div>
     <footer class="entry-meta">
         发布时间： <a href="#" title="{{ blog.b_pub_date }}" rel="bookmark">

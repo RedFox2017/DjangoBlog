@@ -1,19 +1,16 @@
+{% load staticfiles %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>写博客</title>
 </head>
 <body>
-<h1>这是写博客界面</h1>
-<form action="/pub" method="post" enctype="multipart/form-data">
-    {%csrf_token%}
-    标题：<input type="text" name="title"><br>
-    作者：{{author}}<br>
-    内容：<br>
-    <textarea name="content" rows="10" cols="40"></textarea><br>
-    图片：<input type="file" name="pic"><br>
-    <input type="submit" value="发布"><br>
+<form method="post" action="/pub" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.media }}
+    {{ form.as_p }}
+    <p><input type="submit" value="发布"></p>
 </form>
 </body>
 </html>
