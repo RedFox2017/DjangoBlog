@@ -7,3 +7,6 @@
 
 运行项目
 python manage.py runserver
+
+
+python manage.py collectstatic
