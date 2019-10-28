@@ -1,14 +1,30 @@
 {% extends 'blog/index_base.html' %}
 {% block main_primary%}
-<h2>博客详情</h2>
-博客标题：{{blog.b_title}}<br>
-博客作者：{{blog.b_author}}<br>
-<hr>
-博客内容：
-<br>{{blog.b_content}}<br>
-<img src="/static/media/{{blog.b_pic}}" alt="博客图片">
-<hr>
-博客创作时间：{{blog.b_pub_date}}<br>
-博客更新时间：{{blog.b_upd_date}}<br>
-<a href="/update/{{blog.id}}">修改</a>
+<article>
+    <header class="entry-header">
+        <h1 class="entry-title"><a href="#" title="{{blog.b_title}}" rel="bookmark">{{blog.b_title}}</a></h1>
+    </header>
+    <div class="entry-content ql-editor">
+        {{blog.b_content}}
+    </div>
+    <div>
+        <img src="/static/media/{{blog.b_pic}}" alt="博客图片">
+    </div>
+    <footer class="entry-meta">
+        发布时间： <a href="#" title="{{ blog.b_pub_date }}" rel="bookmark">
+        <time class="entry-date" datetime="{{ blog.b_pub_date }}">{{ blog.b_pub_date }}</time>
+    </a>
+        更新时间：<a href="#" title="{{ blog.b_upd_date }}" rel="bookmark">
+        <time class="entry-date" datetime="{{ blog.b_upd_date }}">{{ blog.b_upd_date }}</time>
+    </a>
+        作者：<a href="#" title="查看{{blog.b_author}}的全部文章" rel="category">{{blog.b_author}}</a>
+        分类：<a href="#" title="查看 Linux中的全部文章" rel="category">Linux</a>
+        阅读量：<a href="#" title="" rel="category">{{blog.b_read_vol}}</a>
+        点赞量：<a href="#" title="" rel="category">{{blog.b_thumbs}}</a>
+        <a href="/update/{{blog.id}}">修改</a>
+        <a href="/delete/{{blog.id}}">删除</a>
+    </footer>
+</article>
+
+
 {% endblock main_primary%}

@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect
 from blog.models import BlogInfo, AuthorInfo
 from django.http import HttpResponse, JsonResponse
-
-
 # 上传文件导入settings
 from django.conf import settings
 from blog.models import BlogPicInfo, CategoryInfo
@@ -98,8 +96,14 @@ def change(request, bid):
 
 
 def detail(request, bid):
+    if 'username' in request.COOKIES:
+        username = request.COOKIES['username']
+    else:
+        username = ''
     blog = BlogInfo.objects.get(id=bid)
-    return render(request, 'blog/detail.html', {'blog': blog})
+    categories = CategoryInfo.objects.all()
+    return render(request, 'blog/detail.html',
+                  {'blog': blog, 'categories': categories, 'username': username})
 
 
 # Create your views here.
