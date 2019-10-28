@@ -8,6 +8,8 @@ class BlogInfo(models.Model):
     # 此参数为了避免两个表里的数据不一致问题
     b_author = models.ForeignKey('AuthorInfo', on_delete=models.CASCADE)
     b_introduction = models.CharField(max_length=100)
+    b_read_vol = models.IntegerField(verbose_name='阅读量', default=0)
+    b_thumbs = models.IntegerField(verbose_name='点赞量', default=0)
     b_content = models.TextField()  # 博客内容
     b_pub_date = models.DateField(auto_now_add=True)
     b_upd_date = models.DateField(auto_now=True)
