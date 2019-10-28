@@ -10,7 +10,7 @@ from PIL import Image
 
 # 上传文件导入settings
 from django.conf import settings
-from blog.models import BlogPicInfo
+from blog.models import BlogPicInfo, CategoryInfo
 
 
 # 定义登录判断装饰器
@@ -40,7 +40,9 @@ def index(request):
     blogs = BlogInfo.objects.all()
     paginator = Paginator(blogs, 4)  # 每页4条数据
     page = paginator.page(1)
-    return render(request, 'blog/index.html', {'blogs': blogs, 'username': username, 'page': page})
+    categories = CategoryInfo.objects.all()
+    return render(request, 'blog/index.html',
+                  {'blogs': blogs, 'categories': categories, 'username': username, 'page': page})
 
 
 def show_blog(request, p_index):

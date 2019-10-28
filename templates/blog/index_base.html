@@ -13,36 +13,18 @@
             <h1 class="site-title">
                 <a href="/index" title="戴智豪个人博客">戴智豪个人博客</a>
             </h1>
-            <h2 class="site-description">这是我的个人博客，提供我的学习工作经验总结。</h2>
+            <h2 class="site-description">这是我的博客平台，提供学习经验分享总结。</h2>
         </hgroup>
 
         <nav id="site-navigation" class="main-navigation">
             <ul class="nav-menu">
-                <li><a href="#">首页</a></li>
-                <li><a href="#">服务器</a>
+                <li><a href="/index">首页</a></li>
+                {% for category in categories %}
+                <li><a href="#">{{category.c_name}}</a>
                     <ul class="sub-menu">
                     </ul>
                 </li>
-                <li><a href="#">Python语言</a>
-                    <ul class="sub-menu">
-                    </ul>
-                </li>
-                <li><a href="#">数据库</a>
-                    <ul class="sub-menu">
-                    </ul>
-                </li>
-                <li><a href="#">Linux</a>
-                    <ul class="sub-menu">
-                    </ul>
-                </li>
-                <li><a href="#">Java语言</a>
-                    <ul class="sub-menu">
-                    </ul>
-                </li>
-                <li><a href="#">Html5 &amp; CSS</a>
-                    <ul class="sub-menu">
-                    </ul>
-                </li>
+                {% endfor %}
                 <li><a href="#">Lara博客</a>
                     <ul class="sub-menu">
                     </ul>
@@ -80,7 +62,7 @@
             <aside id="recent-posts-2" class="widget widget_recent_entries">
                 <h3 class="widget-title">热门文章</h3>
                 <ul>
-                     <li><font style="color:#7a7a7a;">[0]</font>&nbsp;<a href="#"
+                    <li><font style="color:#7a7a7a;">[0]</font>&nbsp;<a href="#"
                                                                         title="热门文章一">热门文章1</a>
                     </li>
 

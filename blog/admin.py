@@ -1,5 +1,5 @@
 from django.contrib import admin
-from blog.models import BlogInfo, AuthorInfo, BlogPicInfo
+from blog.models import BlogInfo, AuthorInfo, BlogPicInfo, CategoryInfo
 
 
 # Register your models here.
@@ -16,3 +16,4 @@ class BlogInfoAdmin(admin.ModelAdmin):
 admin.site.register(BlogInfo, BlogInfoAdmin)
 admin.site.register(AuthorInfo)
 admin.site.register(BlogPicInfo)
+admin.site.register(CategoryInfo)
