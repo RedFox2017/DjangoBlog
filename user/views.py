@@ -71,6 +71,27 @@ def reg(request):
     return render(request, 'user/reg.html')
 
 
+def reg_check(request):
+    name = request.POST.get('username')
+    email = request.POST.get('email')
+    pwd = request.POST.get('password')
+    re_pwd = request.POST.get('re_pwd')
+    if pwd == re_pwd:
+        has_exit = AuthorInfo.objects.filter(au_name=name)
+        if has_exit:
+            return JsonResponse({'res': -1})
+        else:
+            author = AuthorInfo()
+            author.au_name = name
+            author.au_email = email
+            author.au_password = pwd
+            author.save()
+            print('注册成功')
+            return JsonResponse({'res': 1})
+    else:
+        return JsonResponse({'res': 0})
+
+
 # 获取随机颜色
 def get_random_color():
     R = random.randrange(255)
