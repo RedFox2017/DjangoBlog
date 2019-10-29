@@ -11,4 +11,6 @@ urlpatterns = [
     path('upload', views.upload),
     path('show_blog/<int:p_index>', views.show_blog),
     path('pub', views.pub),
+    path('search', views.search),
+    path('tips', views.tips),
 ]

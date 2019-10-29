@@ -1,10 +1,12 @@
 import markdown
 from django.shortcuts import render, redirect
 from blog.models import BlogInfo, AuthorInfo
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 # 上传文件导入settings
 from django.conf import settings
 from blog.models import BlogPicInfo, CategoryInfo, MDEditorForm
+
+from django.core.paginator import Paginator
 
 
 # 定义登录判断装饰器
@@ -41,14 +43,13 @@ def index(request):
 
 def show_blog(request, p_index):
     # 分页导入模块
-    from django.core.paginator import Paginator
     if 'username' in request.COOKIES:
         username = request.COOKIES['username']
     else:
         username = ''
     blogs = BlogInfo.objects.all()
-    Paginator = Paginator(blogs, 4)  # 每页十条数据
-    page = Paginator.page(p_index)
+    paginator = Paginator(blogs, 4)  # 每页十条数据
+    page = paginator.page(p_index)
     return render(request, 'blog/index.html', {'blogs': blogs, 'username': username, 'page': page})
 
 
@@ -157,3 +158,37 @@ def pub(request):
     blog.b_cover = cover
     blog.save()
     return redirect('/')
+
+
+def tips(request):
+    s_content = request.POST.get('s_content')
+
+    s_result = BlogInfo.objects.filter(b_title__icontains=s_content)  # 此时不会执行查询
+    # 从session获取的
+    if s_result:
+        response = JsonResponse({'res': 1})
+        return response
+    else:
+        return JsonResponse({'res': 0})
+
+
+def search(request):
+    keywords = request.POST.get('keywords')
+
+    s_result = BlogInfo.objects.filter(b_title__icontains=keywords)  # 此时不会执行查询
+    # 从session获取的
+    # 分页导入模块
+
+    if 'username' in request.COOKIES:
+        username = request.COOKIES['username']
+    else:
+        username = ''
+    categories = CategoryInfo.objects.all()
+    if s_result:
+        paginator = Paginator(s_result, 4)  # 每页4条数据
+        page = paginator.page(1)
+        return render(request, 'blog/index.html',
+                      {'categories': categories, 'username': username, 'page': page})
+    else:
+        return render(request, 'blog/index.html',
+                      {'categories': categories, 'username': username})

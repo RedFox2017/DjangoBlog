@@ -6,6 +6,29 @@
     <script src="/static/js/jquery.min.js"></script>
     <link rel="stylesheet" href="/static/css/index_base.css" type="text/css"/>
     <link rel="stylesheet" href="/static/css/code.css" type="text/css">
+    <script>
+        $(function(){
+            $('#s').change(function(){
+                s_content=$('#s').val()
+                $.ajax({
+                    'url':'/tips',
+                    'type':'post',
+                    'data':{
+                        's_content':s_content,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },{# 开启csrf防护 #}
+                    'dataType':'json'
+                }).success(function(data){
+                     console.log(data)
+                })
+            })
+        })
+
+
+
+
+
+    </script>
 </head>
 <body class="home blog custom-background custom-font-enabled single-author">
 <div id="page" class="hfeed site">
@@ -51,9 +74,12 @@
         <div id="secondary" class="widget-area" role="complementary">
             <aside>
                 <div>
-                    <label class="screen-reader-text" for="s">搜索：</label>
-                    <input placeholder="搜索" type="text" name="keywords" id="s">
-                    <input type="button" class="btn" id="search" value="搜索">
+                    <form action="/search" method="post">
+                        {%csrf_token%}
+                        <label class="screen-reader-text" for="s">搜索：</label>
+                        <input placeholder="搜索文章" type="text" name="keywords" id="s">
+                        <input type="submit" class="btn" id="search" value="搜索">
+                    </form>
                 </div>
             </aside>
             <aside id="recent-posts-2" class="widget widget_recent_entries">
@@ -71,7 +97,7 @@
     <footer id="colophon" role="contentinfo">
         <div class="site-info">
             <span>友情链接：</span>
-            <a href="#">我的博客</a>
+            <a href="">我的博客</a>
             <a href="#">其他博客</a>
         </div>
     </footer>
