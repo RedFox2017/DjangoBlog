@@ -141,6 +141,9 @@ def pub(request):
     author_obj = AuthorInfo.objects.get(au_name=author_name)
     blog.b_author = author_obj
     blog.b_introduction = request.POST.get('brief')
+    category_id = request.POST.get('category')
+    category_obj = CategoryInfo.objects.get(id=category_id)
+    blog.b_category = category_obj
     blog.b_content = request.POST.get('content')
 
     """自定义上传博客图片"""
@@ -192,3 +195,17 @@ def search(request):
     else:
         return render(request, 'blog/index.html',
                       {'categories': categories, 'username': username})
+
+
+def category(request, cid):
+    # 分页导入模块
+    if 'username' in request.COOKIES:
+        username = request.COOKIES['username']
+    else:
+        username = ''
+    categories = CategoryInfo.objects.all()
+    cate = CategoryInfo.objects.get(id=cid)
+    blogs = BlogInfo.objects.filter(b_category=cate)
+    paginator = Paginator(blogs, 4)  # 每页十条数据
+    page = paginator.page(1)
+    return render(request, 'blog/index.html', {'categories': categories, 'username': username, 'page': page})

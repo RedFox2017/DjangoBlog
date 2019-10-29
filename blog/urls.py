@@ -13,4 +13,5 @@ urlpatterns = [
     path('pub', views.pub),
     path('search', views.search),
     path('tips', views.tips),
+    path('category/<int:cid>', views.category, name='category'),
 ]

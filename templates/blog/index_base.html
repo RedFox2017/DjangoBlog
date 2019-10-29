@@ -28,6 +28,7 @@
 
 
 
+
     </script>
 </head>
 <body class="home blog custom-background custom-font-enabled single-author">
@@ -44,7 +45,7 @@
             <ul class="nav-menu">
                 <li><a href="/">首页</a></li>
                 {% for category in categories %}
-                <li><a href="#">{{category.c_name}}</a>
+                <li><a href="/category/{{category.id}}">{{category.c_name}}</a>
                     <ul class="sub-menu">
                     </ul>
                 </li>

@@ -1,3 +1,4 @@
+mdeditor
 pymysql
 markdown
 django-mdeditor

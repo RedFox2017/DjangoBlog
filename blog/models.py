@@ -3,13 +3,6 @@ from mdeditor.fields import MDTextField, MDTextFormField
 from django import forms
 
 
-class MDEditorForm(forms.Form):
-    title = forms.CharField(label='标题', max_length=128)
-    brief = forms.CharField(label='简要', max_length=128, widget=forms.Textarea(attrs={'rows': 5}))
-    cover = forms.ImageField(label='封面')
-    content = MDTextFormField(label='正文')
-
-
 # Create your models here.
 class BlogInfo(models.Model):
     b_title = models.CharField(verbose_name='博客标题', max_length=128)
@@ -20,6 +13,7 @@ class BlogInfo(models.Model):
     b_read_vol = models.IntegerField(verbose_name='阅读量', default=0)
     b_thumbs = models.IntegerField(verbose_name='点赞量', default=0)
     b_content = MDTextField()
+    b_category = models.ForeignKey('CategoryInfo', on_delete=models.CASCADE)
     b_pub_date = models.DateField(auto_now_add=True)
     b_upd_date = models.DateField(auto_now=True)
     b_cover = models.ImageField(upload_to='blog')
@@ -54,10 +48,20 @@ class BlogPicInfo(models.Model):
 class CategoryInfo(models.Model):
     c_name = models.CharField(unique=True, max_length=20)
     c_blog_num = models.IntegerField()
-    c_blog = models.ManyToManyField(BlogInfo)
 
     def __str__(self):
         return self.c_name
 
     class Meta:
         db_table = 'category_info'
+
+
+class MDEditorForm(forms.Form):
+    title = forms.CharField(label='标题', max_length=128)
+    brief = forms.CharField(label='简要', max_length=128, widget=forms.Textarea(attrs={'rows': 5}))
+    cover = forms.ImageField(label='封面')
+    category = forms.ChoiceField(
+        label='分类',
+        choices=CategoryInfo.objects.values_list('id', 'c_name')
+    )
+    content = MDTextFormField(label='正文')
