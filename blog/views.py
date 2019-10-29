@@ -103,7 +103,7 @@ def detail(request, bid):
     else:
         username = ''
     blog = BlogInfo.objects.get(id=bid)
-    blog.b_content = markdown.markdown(blog.b_content, extensions=[
+    blog.b_content = markdown.markdown(blog.b_content.replace("\r\n", '  \n'), extensions=[
         'markdown.extensions.extra',
         'markdown.extensions.codehilite',
         'markdown.extensions.toc',
@@ -139,6 +139,7 @@ def pub(request):
     author_name = request.COOKIES['username']
     author_obj = AuthorInfo.objects.get(au_name=author_name)
     blog.b_author = author_obj
+    blog.b_introduction = request.POST.get('brief')
     blog.b_content = request.POST.get('content')
 
     """自定义上传博客图片"""
