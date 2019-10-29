@@ -1215,7 +1215,7 @@ a.comment-reply-link:hover, a.comment-edit-link:hover {
         width: 28.041666667%;
     }
     .site-header h1, .site-header h2 {
-        text-align: left;
+        text-align: center;
     }
     .site-header h1 {
         font-size: 26px;
