@@ -61,8 +61,13 @@ def create(request):
 
 @login_required
 def delete(request, bid):
+    username = request.COOKIES['username']
     blog = BlogInfo.objects.get(id=bid)
-    blog.delete()
+    print(username)
+    if blog.b_author.au_name == username:
+        blog.delete()
+    else:
+        pass
     return redirect('/')
 
 
