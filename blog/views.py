@@ -104,6 +104,8 @@ def detail(request, bid):
     else:
         username = ''
     blog = BlogInfo.objects.get(id=bid)
+    blog.b_read_vol += 1
+    blog.save()
     blog.b_content = markdown.markdown(blog.b_content.replace("\r\n", '  \n'), extensions=[
         'markdown.extensions.extra',
         'markdown.extensions.codehilite',
